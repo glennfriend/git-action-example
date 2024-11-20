@@ -1,0 +1,13 @@
+{
+  "type": "project",
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "require": {
+    "php": "^8.2"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+  }
+}

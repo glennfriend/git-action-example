@@ -1,0 +1,61 @@
+# 重新對 study/* 產生索引檔案到 readme.md
+name: Generate index for study/* to readme.md
+
+on:
+  push:
+    paths:
+      - ".github/workflows/**"
+      - "scripts/**"
+      - "study/**"
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 檢出程式碼
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          node-version: '20'
+
+#     # 設定 Node.js 環境 (用於執行腳本)
+#     - name: Setup Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: '20'
+#
+#     # 安裝所需工具
+#     - name: Install dependencies
+#       run: npm install fs path
+#
+#     # 執行生成索引腳本
+#     - name: Generate /readme.md
+#       run: node scripts/generate-index.js
+#
+
+      # 設定 PHP 環境
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      # 安裝所需 PHP 擴展與依賴
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php-cli php-xml php-mbstring
+
+
+      # 執行生成索引腳本
+      - name: Generate /readme.md
+        run: php scripts/generate-index.php
+
+      # 提交變更
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add readme.md
+          git commit -m "auto-generate readme.md"
+          git push
