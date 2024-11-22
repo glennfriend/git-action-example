@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 檢出程式碼
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -40,15 +39,12 @@ jobs:
         with:
           php-version: '8.3'
 
-      # 安裝所需 PHP 擴展與依賴
-      - name: Install dependencies
+      - name: Install dependencies (安裝所需 PHP 擴展與依賴)
         run: |
           sudo apt-get update
           sudo apt-get install -y php-cli php-xml php-mbstring
 
-
-      # 執行生成索引腳本
-      - name: Generate /readme.md
+      - name: Generate /readme.md (執行生成索引腳本)
         run: php scripts/generate-index.php
 
       # 提交變更
