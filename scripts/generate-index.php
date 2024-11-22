@@ -27,34 +27,25 @@ function parseMarkdownTitle(string $filePath): string {
     }
 }
 
-// 遞迴生成索引
-function generateIndex(string $dir): array {
+/**
+ * build index array from folder
+ */
+function generateIndex(string $dir): array
+{
     $indexData = [];
-    $files = scandir($dir);
+    $folders = glob($dir . '/*', GLOB_ONLYDIR);
 
-    if ($files === false) {
-        return $indexData;
-    }
-
-    foreach ($files as $file) {
-        if ($file === '.' || $file === '..') {
-            continue;
+    foreach ($folders as $folder) {
+        $files = glob($folder . '/*.md');
+        $dirName = basename($folder);
+        if (!isset($indexData[$dirName])) {
+            $indexData[$dirName] = [];
         }
-
-        $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
-
-        if (is_dir($fullPath)) {
-            $subIndex = generateIndex($fullPath);
-            if (!empty($subIndex)) {
-                $indexData[$file] = $subIndex;
-            }
-        } elseif (is_file($fullPath) && str_ends_with($file, '.md')) {
-            $title = parseMarkdownTitle($fullPath);
-            $parentDir = basename($dir);
-            $indexData[$parentDir][] = $title;
+        foreach ($files as $file) {
+            $title = parseMarkdownTitle($file);
+            $indexData[$dirName][] = $title;
         }
     }
-
     return $indexData;
 }
 

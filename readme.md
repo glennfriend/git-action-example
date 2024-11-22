@@ -1,8 +1,12 @@
+## english
+- English
+
 ## mandarin
-- Array
+- 國語
 
 ## math
-- Array
+- 書目1
 
 ## nature
-- Array
+- 自然1
+- 自然2
