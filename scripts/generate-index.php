@@ -1,5 +1,9 @@
 <?php
 
+use App\File\ParserFolder;
+
+require_once(__DIR__ . '/../vendor/autoload.php');
+
 // 定義目錄與輸出檔案
 $baseDir = __DIR__ . '/../study';
 $outputFile = __DIR__ . '/../readme.md';
@@ -27,28 +31,6 @@ function parseMarkdownTitle(string $filePath): string {
     }
 }
 
-/**
- * build index array from folder
- */
-function generateIndex(string $dir): array
-{
-    $indexData = [];
-    $folders = glob($dir . '/*', GLOB_ONLYDIR);
-
-    foreach ($folders as $folder) {
-        $files = glob($folder . '/*.md');
-        $dirName = basename($folder);
-        if (!isset($indexData[$dirName])) {
-            $indexData[$dirName] = [];
-        }
-        foreach ($files as $file) {
-            $title = parseMarkdownTitle($file);
-            $indexData[$dirName][] = $title;
-        }
-    }
-    return $indexData;
-}
-
 // 格式化索引為 Markdown
 function formatIndex(array $data): string {
     $output = '';
@@ -68,7 +50,7 @@ function formatIndex(array $data): string {
 
 // 生成索引並寫入檔案
 try {
-    $indexData = generateIndex($baseDir);
+    $indexData = ParserFolder::parse($baseDir);
     $formattedIndex = formatIndex($indexData);
     if (file_put_contents($outputFile, $formattedIndex) === false) {
         throw new Exception("Unable to write to file '{$outputFile}'");
