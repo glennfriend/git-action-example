@@ -4,9 +4,22 @@
   "keywords": [],
   "license": "MIT",
   "require": {
-    "php": "^8.2"
+    "php": "^8.4",
+    "illuminate/container": "^11.34"
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\": "src/Modules",
+      "Core\\": "src/Core"
+    },
+    "files": [
+      "functions/helper.php"
+    ]
   },
   "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true
+  },
   "prefer-stable": true,
   "scripts": {
   }

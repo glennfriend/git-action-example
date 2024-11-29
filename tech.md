@@ -4,3 +4,9 @@
   - 前往儲存庫的 Settings > Actions > General
   - 在 Workflow permissions 區塊中，選擇:
     - Read and write permissions: 允許工作流程推送更改
+
+## 直接測試 php script 
+```
+composer install
+php scripts/generate-index.php
+```
