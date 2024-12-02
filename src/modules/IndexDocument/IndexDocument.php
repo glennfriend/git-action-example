@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\GenerateIndex;
+namespace Modules\IndexDocument;
 
 use Core\File\ParserFolder;
 use Exception;
 
-class GenerateIndex
+readonly class IndexDocument
 {
-    public function __construct(readonly private ParserFolder $parserFolder)
+    public function __construct(private ParserFolder $parserFolder)
     {
     }
 
