@@ -1,9 +1,10 @@
 <?php
 
-namespace Modules\IndexDocument;
+namespace Modules\IndexDocument\Enter;
 
 use Core\File\ParserFolder;
 use Exception;
+use Modules\IndexDocument\Domain\DataTransferObject\IndexDocumentDTO;
 
 readonly class IndexDocument
 {
@@ -11,11 +12,11 @@ readonly class IndexDocument
     {
     }
 
-    public function perform(): void
+    public function perform(IndexDocumentDTO $indexDocumentDTO): void
     {
         // 定義目錄與輸出檔案
-        $baseDir = __DIR__ . '/../../../study';
-        $outputFile = __DIR__ . '/../../../readme.md';
+        $baseDir = $indexDocumentDTO->parseFolder;
+        $outputFile = $indexDocumentDTO->outputFile;
 
         // 驗證目錄是否存在
         if (!is_dir($baseDir)) {
