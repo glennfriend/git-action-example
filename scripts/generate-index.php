@@ -1,6 +1,6 @@
 <?php
 
-use App\File\ParserFolder;
+use Core\File\ParserFolder;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 

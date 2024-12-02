@@ -1,6 +1,6 @@
 <?php
 
-namespace App\File;
+namespace Core\File;
 
 /**
  * build index array from folder
