@@ -9,7 +9,7 @@ use Exception;
  */
 class ParserFolder
 {
-    public static function parse(string $dir): array
+    public function parse(string $dir): array
     {
         $indexData = [];
         $folders = glob($dir . '/*', GLOB_ONLYDIR);
@@ -29,7 +29,7 @@ class ParserFolder
     }
 
     // 解析 Markdown 檔案的標題
-    private static function parseMarkdownTitle(string $filePath): string {
+    private function parseMarkdownTitle(string $filePath): string {
         try {
             $content = file_get_contents($filePath);
             if ($content === false) {

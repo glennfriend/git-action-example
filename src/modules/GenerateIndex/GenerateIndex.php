@@ -7,6 +7,10 @@ use Exception;
 
 class GenerateIndex
 {
+    public function __construct(readonly private ParserFolder $parserFolder)
+    {
+    }
+
     public function perform(): void
     {
         // 定義目錄與輸出檔案
@@ -21,7 +25,7 @@ class GenerateIndex
 
         // 生成索引並寫入檔案
         try {
-            $indexData = ParserFolder::parse($baseDir);
+            $indexData = $this->parserFolder->parse($baseDir);
             $formattedIndex = $this->formatIndex($indexData);
             if (file_put_contents($outputFile, $formattedIndex) === false) {
                 throw new Exception("Unable to write to file '{$outputFile}'");

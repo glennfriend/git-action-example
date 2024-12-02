@@ -4,7 +4,8 @@
   "keywords": [],
   "license": "MIT",
   "require": {
-    "php": "^8.4"
+    "php": "^8.4",
+    "illuminate/container": "^11.34"
   },
   "autoload": {
     "psr-4": {
