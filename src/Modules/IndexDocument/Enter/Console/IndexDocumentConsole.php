@@ -2,6 +2,8 @@
 
 namespace Modules\IndexDocument\Enter\Console;
 
+use DomainException;
+use Exception;
 use Modules\IndexDocument\UseCases\IndexDocument\IndexDocumentCommand;
 use Modules\IndexDocument\UseCases\IndexDocument\IndexDocumentUseCase;
 
@@ -21,17 +23,15 @@ readonly class IndexDocumentConsole
         try {
             $this->indexDocumentUseCase->perform($params);
             echo "Index generated successfully at '{$outputFile}'" . PHP_EOL;
-        } catch (\Exception $exception) {
-            echo $exception->getMessage() . PHP_EOL;
-            /*
-            \Log::warning($exception->getMessage(), [
-                'error-type' => '不正確的目錄名稱',
-            ]);
-            */
+        } catch (DomainException $exception) {
+            // 不正確的目錄名稱
+            echo "Warring: {$exception->getMessage()}" . PHP_EOL;
             exit(1);
+        } catch (Exception $exception) {
+            echo $exception->getMessage() . PHP_EOL;
+            // NOTE: log unknown error
+            exit(255);
         }
-
-        // return console success
     }
 
 }

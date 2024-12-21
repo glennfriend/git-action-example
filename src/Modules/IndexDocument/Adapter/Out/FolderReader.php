@@ -8,8 +8,10 @@ use Modules\IndexDocument\Domain\Contract\FolderReadable;
 
 /**
  * Output Port
+ *
+ * refactor  FolderReadable to FolderParserContract
  */
-class FolderReader implements FolderReadable
+readonly class FolderReader implements FolderReadable
 {
     public function __construct(
         private ParserFolder $parserFolder,
@@ -19,7 +21,8 @@ class FolderReader implements FolderReadable
     public function parse(string $path): array
     {
         if (!is_dir($path)) {
-            throw new DomainException("Error: Directory '{$path}' does not exist.");
+            // maybe InfrastructureException ??
+            throw new DomainException("Directory '{$path}' does not exist.");
         }
 
         return $this->parserFolder->parse($path);

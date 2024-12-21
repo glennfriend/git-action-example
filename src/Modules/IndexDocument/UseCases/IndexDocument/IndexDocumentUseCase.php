@@ -14,37 +14,36 @@ readonly class IndexDocumentUseCase
     ) {
     }
 
-    public function perform(IndexDocumentCommand $indexDocumentDTO): bool
+    /**
+     * @param IndexDocumentCommand $command
+     * @return void
+     * @throws Exception
+     */
+    public function perform(IndexDocumentCommand $command): void
     {
-        $baseDir = $indexDocumentDTO->parseFolder;
-        $outputFile = $indexDocumentDTO->outputFile;
+        $baseDir = $command->parseFolder;
+        $outputFile = $command->outputFile;
 
         // 生成索引並寫入檔案
-        try {
-            $indexArray = $this->folderReader->parse($baseDir);
-            $formattedIndex = $this->formatArrayToMarkdown($indexArray);
-
-            $this->indexDocumentAggregateRoot->writeToFile($outputFile, $formattedIndex);
-            return true;
-        } catch (Exception $e) {
-            echo "Error generating index: " . $e->getMessage() . PHP_EOL;
-            exit(1);
-        }
+        $indexArray = $this->folderReader->parse($baseDir);
+        $formattedIndex = $this->formatArrayToMarkdown($indexArray);
+        $this->indexDocumentAggregateRoot->writeToFile($outputFile, $formattedIndex);
     }
 
+    // NOTE: maybe refactor to generateMarkdownFromDirectoryArray()
     // 格式化索引為 Markdown
-    private function formatArrayToMarkdown(array $data): string
+    private function formatArrayToMarkdown(array $directoryStructure): string
     {
         $output = '';
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $output .= "## {$key}\n";
-                foreach ($value as $item) {
-                    $output .= "- {$item}\n";
+        foreach ($directoryStructure as $folder => $files) {
+            if (is_array($files)) {
+                $output .= "## {$folder}\n";
+                foreach ($files as $file) {
+                    $output .= "- {$file}\n";
                 }
                 $output .= "\n"; // 確保每個章節之後都有換行
             } else {
-                $output .= $this->formatIndex($value) . "\n";
+                $output .= $this->formatArrayToMarkdown($files) . "\n";
             }
         }
         return rtrim($output);
