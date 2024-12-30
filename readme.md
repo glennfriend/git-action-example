@@ -10,5 +10,3 @@
 ## nature
 - 自然1
 - 自然2
-
-## society
